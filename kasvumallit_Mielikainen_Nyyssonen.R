@@ -1,9 +1,9 @@
+# The implementations are based on https://silvafennica.fi/article/7597
+#
+#
+#
+#
 ################## SISÄÄNLEIVOTUT  #####################
-# params  = { "plot#age", "plot#ba", "plot#dbh", "plot#hdom", "tree#frd", "tree#frh" },
-# checks  = { ["tree#spe"] = "manty" },
-# returns ={ "tree#+dbh" },
-# coeffs  = { "c_0", "log_age", "log_ba", "log_dbh", "log_hdom", "log_frd", "log_frh"},
-# impl    = mdef("kasvumallit_Mielikainen_Nyyssonen.R", "diameter_growth_pine")
 diameter_growth_pine <- function(age, ba, dbh, hdom, frd, frh,
     c_0=5.4625, log_age=-0.6675, log_ba=-0.4758, log_dbh=0.1173, log_hdom=-0.9442, log_frd=-0.3631, log_frh=0.7762)
 {
@@ -19,11 +19,6 @@ diameter_growth_pine <- function(age, ba, dbh, hdom, frd, frh,
     grpd/100.0*frd
 }
 
-# params  = { "plot#age", "plot#ba", "plot#dbh", "plot#h", "tree#frd", "tree#frh" },
-# checks  = { ["tree#spe"] = none("manty") },
-# returns ={ "tree#+dbh" },
-# coeffs  = { "c_0", "log_age", "log_ba", "log_dbh", "log_h", "log_frd", "log_frh"},
-# impl    = mdef("kasvumallit_Mielikainen_Nyyssonen.R", "diameter_growth_other")
 diameter_growth_other <- function(age, ba, dbh, h, frd, frh,
     c_0=6.9342, log_age=-0.8808, log_ba=-0.4982, log_dbh=0.4159, log_h=-0.3865, log_frd=-0.6267, log_frh=0.1287)
 {
@@ -39,11 +34,6 @@ diameter_growth_other <- function(age, ba, dbh, h, frd, frh,
     grpd/100.0*frd
 }
 
-# params  = { "plot#age", "tree#frd", "tree#frh" },
-# checks  = { ["tree#spe"] = "manty" },
-# returns ={ "tree#+h" },
-# coeffs  = { "c_0", "log_age", "log_frd", "log_frh"},
-# impl    = mdef("kasvumallit_Mielikainen_Nyyssonen.R", "height_growth_pine")
 height_growth_pine <- function(age, frd, frh,
     c_0=5.4636, log_age=-0.9002, log_frd=0.5475, log_frh=-1.1339)
 {
@@ -56,11 +46,6 @@ height_growth_pine <- function(age, frd, frh,
     grph/100.0*frh
 }
 
-# params  = { "plot#age", "plot#ba", "plot#dbh", "plot#h", "tree#frd", "tree#frh" },
-# checks  = { ["tree#spe"] = none("manty") },
-# returns ={ "tree#+h" },
-# coeffs  = { "c_0", "log_age", "log_ba", "log_dbh", "log_h", "log_frd", "log_frh"},
-# impl    = mdef("kasvumallit_Mielikainen_Nyyssonen.R", "height_growth_other")
 height_growth_other <- function(age, ba, dbh, h, frd, frh,
     c_0=12.7402, log_age=-1.1786, log_ba=-0.0937, log_dbh=-0.1434, log_h=-0.8070, log_frd=0.7563, log_frh=-2.0522)
 {
@@ -86,11 +71,6 @@ compound_interest_to_growth <- function(f)
   }
 }
 
-# params  = { "tree#frd", "plot#age", "plot#ba", "plot#dbh", "plot#hdom", "tree#frh" },
-# checks  = { ["tree#spe"] = "manty" },
-# returns ={ "tree#+dbh" },
-# coeffs  = { "c_0", "log_age", "log_ba", "log_dbh", "log_hdom", "log_frd", "log_frh"},
-# impl    = mdef("kasvumallit_Mielikainen_Nyyssonen.R", "diameter_growth_pine_by_ci")
 diameter_growth_pine_by_ci <- compound_interest_to_growth(function(frd, age, ba, dbh, hdom, frh,
     c_0=5.4625, log_age=-0.6675, log_ba=-0.4758, log_dbh=0.1173, log_hdom=-0.9442, log_frd=-0.3631, log_frh=0.7762)
 {
@@ -105,11 +85,6 @@ diameter_growth_pine_by_ci <- compound_interest_to_growth(function(frd, age, ba,
         )
 })
 
-# params  = { "tree#frd", "plot#age", "plot#ba", "plot#dbh", "plot#h", "tree#frh" },
-# checks  = { ["tree#spe"] = none("manty") },
-# returns ={ "tree#+dbh" },
-# coeffs  = { "c_0", "log_age", "log_ba", "log_dbh", "log_h", "log_frd", "log_frh"},
-# impl    = mdef("kasvumallit_Mielikainen_Nyyssonen.R", "diameter_growth_other")
 diameter_growth_other_by_ci <- compound_interest_to_growth(function(frd, age, ba, dbh, h, frh,
     c_0=6.9342, log_age=-0.8808, log_ba=-0.4982, log_dbh=0.4159, log_h=-0.3865, log_frd=-0.6267, log_frh=0.1287)
 {
@@ -124,11 +99,6 @@ diameter_growth_other_by_ci <- compound_interest_to_growth(function(frd, age, ba
     )
 })
 
-# params  = { "tree#frh", "plot#age", "tree#frd" },
-# checks  = { ["tree#spe"] = "manty" },
-# returns ={ "tree#+height" },
-# coeffs  = { "c_0", "log_age", "log_frd", "log_frh"},
-# impl    = mdef("kasvumallit_Mielikainen_Nyyssonen.R", "height_growth_pine")
 height_growth_pine_by_ci <- compound_interest_to_growth(function(frh, age, frd, 
     c_0=5.4636, log_age=-0.9002, log_frd=0.5475, log_frh=-1.1339)
 {
@@ -140,11 +110,6 @@ height_growth_pine_by_ci <- compound_interest_to_growth(function(frh, age, frd,
     )
 })
 
-# params  = { "tree#frh", "plot#age", "plot#ba", "plot#dbh", "plot#h", "tree#frd" },
-# checks  = { ["tree#spe"] = none("manty") },
-# returns ={ "tree#+h" },
-# coeffs  = { "c_0", "log_age", "log_ba", "log_dbh", "log_h", "log_frd", "log_frh"},
-# impl    = mdef("kasvumallit_Mielikainen_Nyyssonen.R", "height_growth_other")
 height_growth_other_by_ci <- compound_interest_to_growth(function(frh, age, ba, dbh, h, frd,
     c_0=12.7402, log_age=-1.1786, log_ba=-0.0937, log_dbh=-0.1434, log_h=-0.8070, log_frd=0.7563, log_frh=-2.0522)
 {
@@ -165,11 +130,6 @@ convert <- function(frd, ci)
     ci/100.0*frd
 }
 
-# params  = { "plot#age", "plot#ba", "plot#dbh", "plot#hdom", "tree#frd", "tree#frh" },
-# checks  = { ["tree#spe"] = "manty" },
-# returns ={ "tree#+dbh" },
-# coeffs  = { "c_0", "log_age", "log_ba", "log_dbh", "log_hdom", "log_frd", "log_frh"},
-# impl    = mdef("kasvumallit_Mielikainen_Nyyssonen.R", "diameter_growth_pine_wrap")
 diameter_growth_pine_wrap <- function(age, ba, dbh, hdom, frd, frh,
     c_0=5.4625, log_age=-0.6675, log_ba=-0.4758, log_dbh=0.1173, log_hdom=-0.9442, log_frd=-0.3631, log_frh=0.7762)
 {
@@ -185,11 +145,6 @@ diameter_growth_pine_wrap <- function(age, ba, dbh, hdom, frd, frh,
     convert(frd, ci)
 }
 
-# params  = { "plot#age", "plot#ba", "plot#dbh", "plot#h", "tree#frd", "tree#frh" },
-# checks  = { ["tree#spe"] = none("manty") },
-# returns ={ "tree#+dbh" },
-# coeffs  = { "c_0", "log_age", "log_ba", "log_dbh", "log_h", "log_frd", "log_frh"},
-# impl    = mdef("kasvumallit_Mielikainen_Nyyssonen.R", "diameter_growth_other")
 diameter_growth_other_wrap <- function(age, ba, dbh, h, frd, frh,
     c_0=6.9342, log_age=-0.8808, log_ba=-0.4982, log_dbh=0.4159, log_h=-0.3865, log_frd=-0.6267, log_frh=0.1287)
 {
@@ -205,11 +160,6 @@ diameter_growth_other_wrap <- function(age, ba, dbh, h, frd, frh,
   convert(frd, ci)
 }
 
-# params  = { "plot#age", "tree#frd", "tree#frh" },
-# checks  = { ["tree#spe"] = "manty" },
-# returns ={ "tree#+height" },
-# coeffs  = { "c_0", "log_age", "log_frd", "log_frh"},
-# impl    = mdef("kasvumallit_Mielikainen_Nyyssonen.R", "height_growth_pine")
 height_growth_pine_wrap <- function(age, frd, frh,
     c_0=5.4636, log_age=-0.9002, log_frd=0.5475, log_frh=-1.1339)
 {
@@ -222,11 +172,6 @@ height_growth_pine_wrap <- function(age, frd, frh,
     convert(frh, ci)
 }
 
-# params  = { "plot#age", "plot#ba", "plot#dbh", "plot#h", "tree#frd", "tree#frh" },
-# checks  = { ["tree#spe"] = none("manty") },
-# returns ={ "tree#+h" },
-# coeffs  = { "c_0", "log_age", "log_ba", "log_dbh", "log_h", "log_frd", "log_frh"},
-# impl    = mdef("kasvumallit_Mielikainen_Nyyssonen.R", "height_growth_other")
 height_growth_other_wrap <- function(age, ba, dbh, h, frd, frh,
     c_0=12.7402, log_age=-1.1786, log_ba=-0.0937, log_dbh=-0.1434, log_h=-0.8070, log_frd=0.7563, log_frh=-2.0522)
 {
@@ -244,22 +189,11 @@ height_growth_other_wrap <- function(age, ba, dbh, h, frd, frh,
 
 ################# ERILLISINÄ FUNKTIOINA ####################
 
-# params = { "tree#frd", "aggregate#cid" }
-# returns = { "tree#+dbh" },
-# impl    = mdef("kasvumallit_Mielikainen_Nyyssonen.R", "convert_ci")
-# params = { "tree#frh", "aggregate#cih" }
-# returns = { "tree#+h" },
-# impl    = mdef("kasvumallit_Mielikainen_Nyyssonen.R", "convert_ci")
 convert_ci <- function(frd, ci)
 {
     ci/100.0*frd
 }
 
-# params  = { "plot#age", "plot#ba", "plot#dbh", "plot#hdom", "tree#frd", "tree#frh" },
-# checks  = { ["tree#spe"] = "manty" },
-# returns = { "aggregate#cid" },
-# coeffs  = { "c_0", "log_age", "log_ba", "log_dbh", "log_hdom", "log_frd", "log_frh"},
-# impl    = mdef("kasvumallit_Mielikainen_Nyyssonen.R", "diameter_growth_pine_wrap")
 diameter_growth_pine_separate <- function(age, ba, dbh, hdom, frd, frh,
     c_0=5.4625, log_age=-0.6675, log_ba=-0.4758, log_dbh=0.1173, log_hdom=-0.9442, log_frd=-0.3631, log_frh=0.7762)
 {
@@ -274,11 +208,6 @@ diameter_growth_pine_separate <- function(age, ba, dbh, hdom, frd, frh,
     )
 }
 
-# params  = { "plot#age", "plot#ba", "plot#dbh", "plot#h", "tree#frd", "tree#frh" },
-# checks  = { ["tree#spe"] = none("manty") },
-# returns ={ "aggregate#ci" },
-# coeffs  = { "c_0", "log_age", "log_ba", "log_dbh", "log_h", "log_frd", "log_frh"},
-# impl    = mdef("kasvumallit_Mielikainen_Nyyssonen.R", "diameter_growth_other")
 diameter_growth_other_separate <- function(age, ba, dbh, h, frd, frh,
     c_0=6.9342, log_age=-0.8808, log_ba=-0.4982, log_dbh=0.4159, log_h=-0.3865, log_frd=-0.6267, log_frh=0.1287)
 {
@@ -293,11 +222,6 @@ diameter_growth_other_separate <- function(age, ba, dbh, h, frd, frh,
     )
 }
 
-# params  = { "plot#age", "tree#frd", "tree#frh" },
-# checks  = { ["tree#spe"] = "manty" },
-# returns ={ "aggregate#ci" },
-# coeffs  = { "c_0", "log_age", "log_frd", "log_frh"},
-# impl    = mdef("kasvumallit_Mielikainen_Nyyssonen.R", "height_growth_pine")
 height_growth_pine_separate <- function(age, frd, frh,
     c_0=5.4636, log_age=-0.9002, log_frd=0.5475, log_frh=-1.1339)
 {
@@ -309,11 +233,6 @@ height_growth_pine_separate <- function(age, frd, frh,
     )
 }
 
-# params  = { "plot#age", "plot#ba", "plot#dbh", "plot#h", "tree#frd", "tree#frh" },
-# checks  = { ["tree#spe"] = none("manty") },
-# returns ={ "aggregate#ci" },
-# coeffs  = { "c_0", "log_age", "log_ba", "log_dbh", "log_h", "log_frd", "log_frh"},
-# impl    = mdef("kasvumallit_Mielikainen_Nyyssonen.R", "height_growth_other")
 height_growth_other_separate <- function(age, ba, dbh, h, frd, frh,
     c_0=12.7402, log_age=-1.1786, log_ba=-0.0937, log_dbh=-0.1434, log_h=-0.8070, log_frd=0.7563, log_frh=-2.0522)
 {
@@ -338,22 +257,22 @@ frd <- 5
 frh <- 6
 
 # Sisäänleivotut
-diameter_growth_pine(age, ba, dgm, hdom, frd, frh)
-diameter_growth_other(age, ba, dgm, h, frd, frh)
-height_growth_pine(age, frd, frh)
-height_growth_other(age, ba, dgm, h, frd, frh)
+diameter_growth_pine(age, ba, dgm, hdom, frd, frh)  # >> 5.831494
+diameter_growth_other(age, ba, dgm, h, frd, frh)    # >> 15.4285
+height_growth_pine(age, frd, frh)                   # >> 4.480257
+height_growth_other(age, ba, dgm, h, frd, frh)      # >> 0.5363484
 # Closurella
-diameter_growth_pine_by_ci(frd, age, ba, dgm, hdom, frh)
-diameter_growth_other_by_ci(frd, age, ba, dgm, h, frh)
-height_growth_pine_by_ci(frh, age, frd)
-height_growth_other_by_ci(frh, age, ba, dgm, h, frd)
+diameter_growth_pine_by_ci(frd, age, ba, dgm, hdom, frh)    # >> 5.831494
+diameter_growth_other_by_ci(frd, age, ba, dgm, h, frh)      # >> 15.4285
+height_growth_pine_by_ci(frh, age, frd)                     # >> 4.480257
+height_growth_other_by_ci(frh, age, ba, dgm, h, frd)        # >> 0.5363484
 # Apufunktiolla
-diameter_growth_pine_wrap(age, ba, dgm, hdom, frd, frh)
-diameter_growth_other_wrap(age, ba, dgm, h, frd, frh)
-height_growth_pine_wrap(age, frd, frh)
-height_growth_other_wrap(age, ba, dgm, h, frd, frh)
+diameter_growth_pine_wrap(age, ba, dgm, hdom, frd, frh) # >> 5.831494
+diameter_growth_other_wrap(age, ba, dgm, h, frd, frh)   # >> 15.4285
+height_growth_pine_wrap(age, frd, frh)                  # >> 4.480257
+height_growth_other_wrap(age, ba, dgm, h, frd, frh)     # >> 0.5363484
 # Erillisinä funktioina
-convert(frd, diameter_growth_pine_separate(age, ba, dgm, hdom, frd, frh) )
-convert(frd, diameter_growth_other_separate(age, ba, dgm, h, frd, frh) )
-convert(frh, height_growth_pine_separate(age, frd, frh) )
-convert(frh, height_growth_other_separate(age, ba, dgm, h, frd, frh) )
+convert(frd, diameter_growth_pine_separate(age, ba, dgm, hdom, frd, frh) )  # >> 5.831494
+convert(frd, diameter_growth_other_separate(age, ba, dgm, h, frd, frh) )    # >> 15.4285
+convert(frh, height_growth_pine_separate(age, frd, frh) )                   # >> 4.480257
+convert(frh, height_growth_other_separate(age, ba, dgm, h, frd, frh) )      # >> 0.5363484
